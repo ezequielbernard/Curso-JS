@@ -1,3 +1,28 @@
+let clientName = "";
+
+const returnUserName = () => {
+    return clientName.charAt(0).toUpperCase() + clientName.slice(1);
+};
+
+const promptClientName = () => {
+    while (clientName === "") {
+        clientName = prompt("Indique su usuario para ingresar en la aplicación");
+
+        if (clientName !== "") {
+            showProductCatalog();
+        } else {
+            alert("Error! Debe completar el nombre de usuario");
+        }
+    }
+};
+
+const showProductCatalog = () => {
+    const greetingElement = document.getElementById("greeting");
+    greetingElement.textContent = returnUserName();
+};
+
+promptClientName();
+
 const CLAVE_LOCALSTORAGE = "listado_tareas";
 
 document.addEventListener("DOMContentLoaded", () => {
