@@ -3,7 +3,8 @@ body
   display: block;
   text-align: center;
   margin-top: 100px;
-
+  background-color: rgb(245, 245, 245);
+  font-family: 'Open Sans', sans-serif;
 }
 
 h2
@@ -11,6 +12,33 @@ h2
   font-size: 40px;
   color: rgb(19, 151, 85);
 }
+
+p
+{
+font-size: 40px;
+color: rgb(5, 35, 122);
+}
+
+#NuevaTarea 
+{
+  width: 80%;
+  height: 40px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: none ;
+}
+
+#BuscarTarea
+{
+  width: 85%;
+  height: 40px;
+  background-color: white;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
 li 
 {
   margin: 10px;
@@ -30,13 +58,39 @@ a.enlace-eliminar
   text-decoration: line-through;
 }
 
-p
+
+
+.tareas-finalizadas h3
 {
-font-size: 40px;
-color: rgb(5, 35, 122);
+  COLOR: green;
 }
 
 h3
 {
-  COLOR: RED;
+  COLOR: Red;
+}
+
+.tareas-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tareas-pendientes,
+.tareas-finalizadas {
+  width: 100%; 
+}
+
+.tareas-pendientes {
+  float: left;
+}
+
+.tareas-finalizadas {
+  float: right;
+}
+
+#BuscarTarea {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 10px;
 }

@@ -5,21 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To Do List - Online</title>
   <link rel="stylesheet" href="estilos.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <h2>To Do List de </h2> <p id="greeting"></p>
+  <h2>To Do List de </h2><p id="greeting"></p>
   <form method="dialog">
-  <label for="NuevaTarea">Agregar Nueva Tarea:</label>
-  <input type="text" id="NuevaTarea">
-  <button id="AgregarTarea">OK</button>
+  <label for="NuevaTarea"></label>
+  <input type="text" id="NuevaTarea" placeholder="Agregar Nueva Tarea">
+  <button id="AgregarTarea"style="background-color: white; color: blue; font-size: 15px; height: 45px; border-radius: 10px;border:none;">Agregar</button>
   </form>
-  BUSCAR TAREAS <input type="text" id="BuscarTarea" placeholder="Buscar tarea">
-  <ul id="contenedorTareas"></ul>
-  <span id="contadorTareas"></span>
-  <h3>Tareas Pendientes</h3>
-  <h3>Tareas Finalizadas</h3>
-<ul id="contenedorTareasFinalizadas"></ul>
+  <input type="text" id="BuscarTarea" placeholder="Buscar tarea">
+  <div class="tareas-container">
+    <div class="tareas-pendientes">
+      <h3>Tareas Pendientes</h3>
+      <ul id="contenedorTareas"></ul>
+      <span id="contadorTareas"></span>
+    </div>
+    <div class="tareas-finalizadas">
+      <h3>Tareas Finalizadas</h3>
+      <ul id="contenedorTareasFinalizadas"></ul>
+    </div>
+  </div>
 
 
   
