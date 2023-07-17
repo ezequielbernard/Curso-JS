@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const $btnGuardarTarea = document.querySelector("#AgregarTarea");
   const $NuevaTarea = document.querySelector("#NuevaTarea");
   const $contadorTareas = document.querySelector("#contadorTareas");
+  const $contadorTareasFinalizadas = document.querySelector("#contadorTareasFinalizadas");
   const $buscarTarea = document.querySelector("#BuscarTarea");
 
   $btnGuardarTarea.onclick = () => {
@@ -49,9 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   $buscarTarea.oninput = () => {
-    // Código de búsqueda de tareas omitido para mantener la respuesta más concisa
-    // ...
-
     refrescarTareas();
   };
 
@@ -76,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     $contenedorTareasFinalizadas.innerHTML = "";
     let contadorPendientes = 0;
     let contadorFinalizadas = 0;
+    const filtro = $buscarTarea.value.toLowerCase().trim();
 
     for (const [indice, tarea] of tareas.entries()) {
       const $enlaceParaEliminar = document.createElement("a");
@@ -109,19 +108,22 @@ document.addEventListener("DOMContentLoaded", () => {
       $li.appendChild($enlaceParaEliminar);
 
       if (tarea.terminada) {
-        $checkbox.checked = true;
-        $span.classList.add("tachado");
-        $contenedorTareasFinalizadas.appendChild($li);
-        contadorFinalizadas++;
+        if (tarea.tarea.toLowerCase().includes(filtro)) {
+          $checkbox.checked = true;
+          $span.classList.add("tachado");
+          $contenedorTareasFinalizadas.appendChild($li);
+          contadorFinalizadas++;
+        }
       } else {
-        $contenedorTareas.appendChild($li);
-        contadorPendientes++;
+        if (tarea.tarea.toLowerCase().includes(filtro)) {
+          $contenedorTareas.appendChild($li);
+          contadorPendientes++;
+        }
       }
     }
 
     $contadorTareas.textContent = `Tareas Pendientes: ${contadorPendientes}`;
-    // Opcionalmente, puedes mostrar el contador de tareas finalizadas en el HTML
-    // document.querySelector("#contadorTareasFinalizadas").textContent = `Tareas Finalizadas: ${contadorFinalizadas}`;
+    $contadorTareasFinalizadas.textContent = `Tareas Finalizadas: ${contadorFinalizadas}`;
   };
 
   tareas = obtenerTareas();
