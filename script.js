@@ -9,14 +9,14 @@ const promptClientName = () => {
     clientName = prompt("Indique su usuario para ingresar en la aplicación");
 
     if (clientName !== "") {
-      showProductCatalog();
+      showToDoList();
     } else {
       alert("Error! Debe completar el nombre de usuario");
     }
   }
 };
 
-const showProductCatalog = () => {
+const showToDoList = () => {
   const greetingElement = document.getElementById("greeting");
   greetingElement.textContent = returnUserName();
 };
