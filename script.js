@@ -1,5 +1,4 @@
 let clientName = "";
-
 const returnUserName = () => {
   return clientName.charAt(0).toUpperCase() + clientName.slice(1);
 };
@@ -27,6 +26,7 @@ const CLAVE_LOCALSTORAGE = "listado_tareas";
 
 document.addEventListener("DOMContentLoaded", () => {
   let tareas = [];
+  let tareasFiltradas = [];
   const $contenedorTareas = document.querySelector("#contenedorTareas");
   const $contenedorTareasFinalizadas = document.querySelector("#contenedorTareasFinalizadas");
   const $btnGuardarTarea = document.querySelector("#AgregarTarea");
@@ -69,13 +69,22 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("tareas_finalizadas", JSON.stringify(tareasFinalizadas));
   };
 
-  const refrescarTareas = () => {
+  const filtrarTareas = (tareas, filtro) => {
+    return tareas.filter((tarea) => tarea.tarea.toLowerCase().includes(filtro));
+  };
+  const eliminarTarea = (indice) => {
+    if (!confirm("¿Estás seguro/a que deseas eliminar la tarea?")) {
+      return;
+    }
+    tareas.splice(indice, 1);
+    guardarTareas();
+    refrescarTareas();
+  };
+  
+  const renderizarTareas = (tareas, $contenedorTareas, $contenedorTareasFinalizadas) => {
     $contenedorTareas.innerHTML = "";
     $contenedorTareasFinalizadas.innerHTML = "";
-    let contadorPendientes = 0;
-    let contadorFinalizadas = 0;
-    const filtro = $buscarTarea.value.toLowerCase().trim();
-
+    
     for (const [indice, tarea] of tareas.entries()) {
       const $enlaceParaEliminar = document.createElement("a");
       $enlaceParaEliminar.classList.add("enlace-eliminar");
@@ -83,14 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
       $enlaceParaEliminar.href = "";
       $enlaceParaEliminar.onclick = (evento) => {
         evento.preventDefault();
-        if (!confirm("¿Estás seguro/a que deseas eliminar la tarea?")) {
-          return;
-        }
-        tareas.splice(indice, 1);
-        guardarTareas();
-        refrescarTareas();
+        eliminarTarea(indice);
       };
-
+  
       const $checkbox = document.createElement("input");
       $checkbox.type = "checkbox";
       $checkbox.onchange = function () {
@@ -98,32 +102,38 @@ document.addEventListener("DOMContentLoaded", () => {
         guardarTareas();
         refrescarTareas();
       };
-
+  
       const $span = document.createElement("span");
       $span.textContent = tarea.tarea;
-
+  
       const $li = document.createElement("li");
       $li.appendChild($checkbox);
       $li.appendChild($span);
       $li.appendChild($enlaceParaEliminar);
-
+  
       if (tarea.terminada) {
-        if (tarea.tarea.toLowerCase().includes(filtro)) {
-          $checkbox.checked = true;
-          $span.classList.add("tachado");
-          $contenedorTareasFinalizadas.appendChild($li);
-          contadorFinalizadas++;
-        }
+        $checkbox.checked = true;
+        $span.classList.add("tachado");
+        $contenedorTareasFinalizadas.appendChild($li);
       } else {
-        if (tarea.tarea.toLowerCase().includes(filtro)) {
-          $contenedorTareas.appendChild($li);
-          contadorPendientes++;
-        }
+        $contenedorTareas.appendChild($li);
       }
     }
+  };
+  
 
-    $contadorTareas.textContent = `Tareas Pendientes: ${contadorPendientes}`;
-    $contadorTareasFinalizadas.textContent = `Tareas Finalizadas: ${contadorFinalizadas}`;
+  const refrescarTareas = () => {
+    const filtro = $buscarTarea.value.toLowerCase().trim();
+    tareasFiltradas = filtrarTareas(tareas, filtro);
+
+    $contadorTareas.textContent = `Tareas Pendientes: ${tareas.filter(
+      (tarea) => !tarea.terminada
+    ).length}`;
+    $contadorTareasFinalizadas.textContent = `Tareas Finalizadas: ${tareas.filter(
+      (tarea) => tarea.terminada
+    ).length}`;
+
+    renderizarTareas(tareasFiltradas, $contenedorTareas, $contenedorTareasFinalizadas);
   };
 
   tareas = obtenerTareas();
